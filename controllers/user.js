@@ -41,7 +41,7 @@ exports.adding_user = [
             } else {
                 // there is no existing user, so update the database and redirect to the home page 
                 await user.save();
-                res.redirect("/");
+                res.redirect("/ismember");
             }
         }
     })
@@ -64,5 +64,13 @@ exports.isMemberCheckFunction=  asyncHandler(async(req,res,next)=>{
    }
 })
  
-
-  
+//login page 
+exports.LoginPage= (req,res)=>{
+  res.render("login-form")
+}
+///  to check the login information 
+exports.LoginCheck= asyncHandler(async(req,res,next)=>{
+           const user=  req.user
+           console.log(user)
+           res.redirect("/")
+})
