@@ -4,7 +4,7 @@ const mongoose= require('mongoose')
         lastname:String,
         email:{type:String},
         password : {type:String},
-        membership_status:{type:String, default:"no"}
+        membership_status:{type:String, default:"No"}
   })
 
 
