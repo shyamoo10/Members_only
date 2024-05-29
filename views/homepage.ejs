@@ -6,7 +6,43 @@
     <title>Home Page</title>
 </head>
 <body>
-     <h1>home page</h1>
-    <a href="/login">Log in</a>
+    
+    <% if (typeof user !== "undefined") { %>
+        <h1>Welcome <%= user.fullname %></h1>
+        <a href="/message/create">Create new message</a>
+        <a href="/logout">Log out</a>
+        
+        <% if (typeof messages !== "undefined" && messages.length > 0) { %>
+            <h2>Messages:</h2>
+            <% if (typeof user !== "undefined" && user.membership_status === "Yes") { %>
+                <ul> 
+                    <% messages.forEach(function(message) { %>
+                        <li>
+                            <strong>Title:</strong> <%= message.title %><br>
+                            <strong>Message:</strong> <%= message.text %><br>
+                            <strong>Date:</strong> <%= message.date %>  <br>
+                            <strong>Author:</strong> <%= message.author.fullname %>
+                        </li>
+                    <% }); %>
+                </ul>
+            <% } else { %>
+                <ul> 
+                    <% messages.forEach(function(message) { %>
+                        <li>
+                            <strong>Title:</strong> <%= message.title %><br>
+                            <strong>Message:</strong> <%= message.text %><br>
+                        </li>
+                    <% }); %>
+                </ul>
+            <% } %>
+        <% } else { %>
+            <p>No messages to display.</p>
+        <% } %>
+        
+    <% } else { %>
+        <h1>Home Page</h1>
+        <a href="/login">Log in</a>
+    <% } %>
+    
 </body>
 </html>

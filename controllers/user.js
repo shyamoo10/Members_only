@@ -2,7 +2,7 @@ const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 const User = require("../models/user");
 const bcrypt = require("bcryptjs");
-
+ const Message= require("../models/messge")
 exports.signup_form = (req, res) => {
     res.render("signup-form");
 };
@@ -71,6 +71,21 @@ exports.LoginPage= (req,res)=>{
 ///  to check the login information 
 exports.LoginCheck= asyncHandler(async(req,res,next)=>{
            const user=  req.user
-           console.log(user)
-           res.redirect("/")
+           const messages = await Message.find({})
+           .populate({
+               path: 'author',
+               match: { membership_status: 'Yes' }
+           })
+           .exec();
+           const filteredMessages = messages.filter(message => message.author !== null);
+           res.render("homepage", {user:user, messages:filteredMessages})
+            
+})
+exports.Logout= asyncHandler(async(req,res,next)=>{
+    req.logout((err)=>{
+        if(err){
+            return next(err)
+        } 
+        res.redirect("/")
+    })
 })
